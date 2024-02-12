@@ -6,7 +6,7 @@ export default function App() {
 
   const note = {
     text: "hello world",
-    date: new Date(0)
+    date: new Date()
   }
   return (
     <div className="mx-auto my-12 max-w-6xl space-y-6">
