@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import Logo from "./components/Logo";
 import { NewNote } from "./components/new-note-card";
 import { NoteCard } from "./components/note-card";
@@ -17,6 +17,7 @@ export default function App() {
     }
     return [];
   });
+  const [search, setSearch] = useState('')
 
   function onNoteCreated(content: string) {
     const newNote = {
@@ -30,6 +31,13 @@ export default function App() {
 
     localStorage.setItem("notes", JSON.stringify(notesArray));
   }
+  function handleSearch(event : ChangeEvent<HTMLInputElement>) {
+    const query = event.target.value
+    setSearch(query)
+  }
+ 
+  const filteredNotes = search != '' ? notes.filter(note => note.content.toLocaleLowerCase().includes(search.toLocaleLowerCase()))
+  : notes
   return (
     <div className="mx-auto my-12 max-w-6xl space-y-6">
       <Logo />
@@ -38,6 +46,7 @@ export default function App() {
           type="text"
           placeholder="Busque em suas notas..."
           className="w-full bg-transparent text-3xl font-semibold tracking-tighter placeholder:text-slate-500 focus:outline-none"
+          onChange={handleSearch}
         />
       </form>
 
@@ -45,7 +54,7 @@ export default function App() {
 
       <div className="grid auto-rows-[250px] grid-cols-3 gap-6">
         <NewNote onNoteCreated={onNoteCreated} />
-        {notes.map((notes) => {
+        {filteredNotes.map((notes) => {
           return <NoteCard note={notes} key={notes.id} />;
         })}
       </div>
