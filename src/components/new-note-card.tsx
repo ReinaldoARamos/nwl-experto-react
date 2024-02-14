@@ -72,6 +72,10 @@ export function NewNote({ onNoteCreated }: NewNoteCardProps) {
   }
   function handleStopRecording() {
     setisRecording(false);
+
+    if(speechRecognition != null) {
+      speechRecognition.stop();
+    }
   }
   return (
     <Dialog.Root>
