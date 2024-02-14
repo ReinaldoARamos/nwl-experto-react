@@ -39,7 +39,7 @@ export default function App() {
   const filteredNotes = search != '' ? notes.filter(note => note.content.toLocaleLowerCase().includes(search.toLocaleLowerCase()))
   : notes
   return (
-    <div className="mx-auto my-12 max-w-6xl space-y-6">
+    <div className="mx-auto my-12 max-w-6xl space-y-6 px-5 md:px-0" >
       <Logo />
       <form action="" className="w-full">
         <input
@@ -52,7 +52,7 @@ export default function App() {
 
       <div className="h-px bg-slate-700" />
 
-      <div className="grid auto-rows-[250px] grid-cols-3 gap-6">
+      <div className="grid grid-col-1 auto-rows-[250px] md:grid-cols-2 lg:grid-cols-3 gap-6">
         <NewNote onNoteCreated={onNoteCreated} />
         {filteredNotes.map((notes) => {
           return <NoteCard note={notes} key={notes.id} />;
