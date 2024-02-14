@@ -4,7 +4,7 @@ import { ptBR } from "date-fns/locale";
 import { X } from "lucide-react";
 interface NoteCard {
   note: {
-    text: string;
+    content: string;
     date: Date;
   };
 }
@@ -13,10 +13,13 @@ export function NoteCard({ note }: NoteCard) {
     <Dialog.Root>
       <Dialog.Trigger className="relative flex flex-col gap-3 overflow-hidden rounded-md bg-slate-800 p-5 text-left outline-none hover:ring-2 hover:ring-slate-600 focus-visible:ring-2 focus-visible:ring-lime-400">
         <span className="text-sm font-medium text-slate-300">
-          {note.date.toISOString()}
+          {formatDistanceToNow(note.date, {
+            locale: ptBR,
+            addSuffix: true,
+          })}
         </span>
 
-        <p className="text-sm leading-6 text-slate-400">{note.text}</p>
+        <p className="text-sm leading-6 text-slate-400">{note.content}</p>
 
         <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-black/60 to-black/0" />
       </Dialog.Trigger>
@@ -34,7 +37,7 @@ export function NoteCard({ note }: NoteCard) {
               })}
             </span>
 
-            <p className="text-sm leading-6 text-slate-400">{note.text}</p>
+            <p className="text-sm leading-6 text-slate-400">{note.content}</p>
           </div>
           <button
             type="button"
