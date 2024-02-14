@@ -25,6 +25,8 @@ export function NewNote({onNoteCreated} : NewNoteCardProps) {
     console.log(content)
     onNoteCreated(content)
     toast.success('Nota criada com sucesso')
+    setContent('')
+    setshouldShowOnboarding(true)
     
   }
   return (
@@ -69,6 +71,7 @@ export function NewNote({onNoteCreated} : NewNoteCardProps) {
                   autoFocus
                   className="flex-1 resize-none bg-transparent text-sm leading-6 text-slate-400 outline-none"
                   onChange={handleEditorChange}
+                  value={content}
                 ></textarea>
               )}
             </div>
