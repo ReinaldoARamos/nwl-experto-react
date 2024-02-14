@@ -6,9 +6,11 @@ interface NoteCard {
   note: {
     content: string;
     date: Date;
+    id: string;
   };
+  onNoteDeleted: (id: string) => void;
 }
-export function NoteCard({ note }: NoteCard) {
+export function NoteCard({ note, onNoteDeleted }: NoteCard) {
   return (
     <Dialog.Root>
       <Dialog.Trigger className="relative flex flex-col gap-3 overflow-hidden rounded-md bg-slate-800 p-5 text-left outline-none hover:ring-2 hover:ring-slate-600 focus-visible:ring-2 focus-visible:ring-lime-400">
@@ -25,7 +27,7 @@ export function NoteCard({ note }: NoteCard) {
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-black/50 " />
-        <Dialog.Content className="fixed md:left-1/2 md:top-1/2 z-10 flex inset-0 md:inset-auto md:h-[60vh] w-full md:max-w-[640px] md:-translate-x-1/2 md:-translate-y-1/2 flex-col overflow-hidden md:rounded-md bg-slate-700 outline-none ">
+        <Dialog.Content className="fixed inset-0 z-10 flex w-full flex-col overflow-hidden bg-slate-700 outline-none md:inset-auto md:left-1/2 md:top-1/2 md:h-[60vh] md:max-w-[640px] md:-translate-x-1/2 md:-translate-y-1/2 md:rounded-md ">
           <Dialog.Close className="absolute right-0 top-0 bg-slate-800 p-1.5 text-slate-400 outline-none transition-colors hover:cursor-pointer hover:text-slate-100">
             <X className="size-5" />
           </Dialog.Close>
@@ -41,6 +43,7 @@ export function NoteCard({ note }: NoteCard) {
           </div>
           <button
             type="button"
+            onClick={() => onNoteDeleted(note.id)}
             className="group w-full bg-slate-800 py-4 text-center text-sm font-medium text-slate-300 outline-none"
           >
             Deseja{" "}
