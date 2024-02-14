@@ -31,7 +31,42 @@ export function NewNote({ onNoteCreated }: NewNoteCardProps) {
   }
 
   function handleStartRecording() {
+    
+    const isSpeechRecognitionAPIavailable =
+      "SpeechRegognition" in window || "webkitSpeechRecognition" in window;
+
+   
+
+    if (!isSpeechRecognitionAPIavailable) {
+      alert("seu navegador não suporta a API de navegação");
+      return;
+    }
+
     setisRecording(true);
+    setshouldShowOnboarding(false)
+
+    const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition
+
+    const speechRecognition = new SpeechRecognitionAPI()
+
+    speechRecognition.lang = 'pt-br'
+    speechRecognition.continuous = true //nao vai parar de gravar ate que eu fale manualmente pra parar
+    speechRecognition.maxAlternatives = 1
+    speechRecognition.interimResults = true //quero que a API vá trazendo os resultados conforme o usuário vá falando
+
+    speechRecognition.onresult = (event) => {
+      const transcription = Array.from(event.results).reduce((text, result) => {
+          return text.concat(result[0].transcript)
+      } , '')
+        setContent(transcription)
+        //faz a transcrição pegando o array e transformando em texto
+    }
+
+    speechRecognition.onerror = (event) => {
+      console.error(event)
+    }
+
+    speechRecognition.start()
   }
   function handleStopRecording() {
     setisRecording(false);
@@ -90,19 +125,19 @@ export function NewNote({ onNoteCreated }: NewNoteCardProps) {
             {isRecording ? (
               <button
                 type="button"
-                className="group w-full flex items-center justify-center gap-2 bg-slate-900 py-4 text-center text-sm font-medium text-slate-300 outline-none transition-colors hover:bg-lime-500"
+                className="group flex w-full items-center justify-center gap-2 bg-slate-900 py-4 text-center text-sm font-medium text-slate-300 outline-none transition-colors hover:bg-lime-500"
                 onClick={handleStopRecording}
               >
-               <div className="size-3 rounded-full bg-red-500 animate-pulse"/>
-               Gravando! (clique p/ interromper)
+                <div className="size-3 animate-pulse rounded-full bg-red-500" />
+                Gravando! (clique p/ interromper)
               </button>
             ) : (
               <button
-              onClick={handleSaveNote}
+                onClick={handleSaveNote}
                 type="button"
-                className="group w-full bg-lime-400 py-4 text-center text-sm font-medium text-lime-950 outline-none transition-colors hover:bg-lime-500 disabled:opacity-60 disabled:cursor-not-allowed"
-              disabled={content === ""}
-             >
+                className="group w-full bg-lime-400 py-4 text-center text-sm font-medium text-lime-950 outline-none transition-colors hover:bg-lime-500 disabled:cursor-not-allowed disabled:opacity-60"
+                disabled={content === ""}
+              >
                 Salvar nota
               </button>
             )}
