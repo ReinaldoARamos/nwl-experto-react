@@ -1,11 +1,12 @@
 import * as Dialog from "@radix-ui/react-dialog";
-
+import {toast} from 'sonner'
 import { X } from "lucide-react";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 
 export function NewNote() {
   const [shouldShowOnboarding, setshouldShowOnboarding] =
     useState<boolean>(true);
+  const [content, setContent] = useState<string>("");
 
   function handleStartEditor() {
     setshouldShowOnboarding(false);
@@ -13,10 +14,14 @@ export function NewNote() {
 
   function handleEditorChange(event: ChangeEvent<HTMLTextAreaElement>) {
     if (event.target.value === "") setshouldShowOnboarding(true);
+    setContent(event.target.value);
   }
 
-  function handleSaveNote() {
-    console.log("saving");
+  function handleSaveNote(event: FormEvent) {
+    event.preventDefault()
+    console.log(content)
+    toast.success('Nota criada com sucesso')
+    
   }
   return (
     <Dialog.Root>
@@ -35,11 +40,7 @@ export function NewNote() {
           <Dialog.Close className="absolute right-0 top-0 bg-slate-800 p-1.5 text-slate-400 outline-none transition-colors hover:cursor-pointer hover:text-slate-100">
             <X className="size-5" />
           </Dialog.Close>
-          <form
-            action=""
-            onSubmit={handleSaveNote}
-            className="flex flex-1 flex-col"
-          >
+          <form onSubmit={handleSaveNote} className="flex flex-1 flex-col">
             <div className="flex flex-1 flex-col gap-3 p-5">
               <span className="text-sm font-medium text-slate-300">
                 Adicionar nota
@@ -68,7 +69,7 @@ export function NewNote() {
               )}
             </div>
             <button
-              type="button"
+              type="submit"
               className="group w-full bg-lime-400 py-4 text-center text-sm font-medium text-lime-950 outline-none transition-colors hover:bg-lime-500"
             >
               Salvar nota
