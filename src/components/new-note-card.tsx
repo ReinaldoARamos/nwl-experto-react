@@ -100,8 +100,9 @@ export function NewNote({ onNoteCreated }: NewNoteCardProps) {
               <button
               onClick={handleSaveNote}
                 type="button"
-                className="group w-full bg-lime-400 py-4 text-center text-sm font-medium text-lime-950 outline-none transition-colors hover:bg-lime-500"
-              >
+                className="group w-full bg-lime-400 py-4 text-center text-sm font-medium text-lime-950 outline-none transition-colors hover:bg-lime-500 disabled:opacity-60 disabled:cursor-not-allowed"
+              disabled={content === ""}
+             >
                 Salvar nota
               </button>
             )}
