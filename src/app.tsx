@@ -9,7 +9,14 @@ interface Notes {
   id: string;
 }
 export default function App() {
-  const [notes, setNotes] = useState<Notes[]>([]);
+  const [notes, setNotes] = useState<Notes[]>(() => {
+    const notesOnStorage = localStorage.getItem("notes");
+
+    if (notesOnStorage) {
+      return JSON.parse(notesOnStorage);
+    }
+    return [];
+  });
 
   function onNoteCreated(content: string) {
     const newNote = {
