@@ -7,7 +7,7 @@ interface NewNoteCardProps {
   onNoteCreated: (content: string) => void;
 }
 
-const speechRecognition : SpeechRecognition | null = null;
+let  speechRecognition : SpeechRecognition | null = null;
 export function NewNote({ onNoteCreated }: NewNoteCardProps) {
   const [shouldShowOnboarding, setshouldShowOnboarding] =
     useState<boolean>(true);
@@ -49,7 +49,7 @@ export function NewNote({ onNoteCreated }: NewNoteCardProps) {
 
     const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition
 
-     speechRecognition = new SpeechRecognitionAPI()
+    speechRecognition = new SpeechRecognitionAPI()
 
     speechRecognition.lang = 'pt-br'
     speechRecognition.continuous = true //nao vai parar de gravar ate que eu fale manualmente pra parar
