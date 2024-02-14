@@ -18,7 +18,10 @@ export default function App() {
       id: crypto.randomUUID(),
     };
 
-    setNotes([newNote, ...notes]);
+    const notesArray = [newNote, ...notes];
+    setNotes(notesArray);
+
+    localStorage.setItem("notes", JSON.stringify(notesArray));
   }
   return (
     <div className="mx-auto my-12 max-w-6xl space-y-6">
