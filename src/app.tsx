@@ -3,35 +3,19 @@ import Logo from "./components/Logo";
 import { NewNote } from "./components/new-note-card";
 import { NoteCard } from "./components/note-card";
 
+interface Notes {
+  content: string;
+  date: Date;
+  id: string;
+}
 export default function App() {
-  const [notes, setNotes] = useState([
-    {
-      content: "hello world",
-      date: new Date(),
-      id: 1,
-    },
-    {
-      content: "Polnarefladia",
-      date: new Date(),
-      id: 2,
-    },
-    {
-      content: "Eba",
-      date: new Date(),
-      id: 3,
-    },
-    {
-      content: "aaaaaaaaaaa",
-      date: new Date(),
-      id: 4,
-    },
-  ]);
+  const [notes, setNotes] = useState<Notes[]>([]);
 
   function onNoteCreated(content: string) {
     const newNote = {
       content,
       date: new Date(),
-      id: Math.random(),
+      id: crypto.randomUUID(),
     };
 
     setNotes([newNote, ...notes]);
